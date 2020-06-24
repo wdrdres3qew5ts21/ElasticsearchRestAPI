@@ -17,7 +17,10 @@ pipeline {
 
         stage('Build Docker') { 
             steps {
-                sh 'mvn -B -DskipTests clean package' 
+                sh 'docker build -t scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture:${env.BUILD_ID}.' 
+                sh 'docker login -u gitlab-ci-token -p ${GITLAB_PASS} scm.dimensiondata.com:5050' 
+                sh 'docker push scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture' 
+
             }
         }
     }
