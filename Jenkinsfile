@@ -7,11 +7,16 @@ pipeline {
                     args '-v /root/.m2:/root/.m2'
                 }
             }
-            echo 'Test Git Clone !'
-            checkout scm
-            echo '=== End Git clone === '
-            sh 'mvn -B -DskipTests clean package'
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+
+            steps {
+                script {
+                    sh 'echo Test Git Clone !'
+                    checkout scm
+                    sh 'echo === End Git clone === '
+                    sh 'mvn -B -DskipTests clean package'
+                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                }
+            }
         }
 
         stage('Build Docker') {
