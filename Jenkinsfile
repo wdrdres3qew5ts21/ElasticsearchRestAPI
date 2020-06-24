@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build Maven') { 
             steps {
-                echo "=== Build Maven ==="
+                echo "=== Build Maven + ==="
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 sh 'mvn -B -DskipTests clean package' 
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
