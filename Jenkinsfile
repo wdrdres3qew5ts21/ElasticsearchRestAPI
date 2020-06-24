@@ -1,26 +1,29 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.6.3-jdk-11' 
-            args '-v /root/.m2:/root/.m2' 
+            image 'maven:3.6.3-jdk-11'
+            args '-v /root/.m2:/root/.m2'
         }
     }
     stages {
-        stage('Build Maven') { 
+        stage('Build Maven') {
             steps {
-                echo "=== Build Maven + ==="
+                echo '=== Build Maven + ==='
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-                sh 'mvn -B -DskipTests clean package' 
+                sh 'mvn -B -DskipTests clean package'
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             }
         }
 
-        stage('Build Docker') { 
+        stage('Build Docker') {
             steps {
-                sh 'docker build -t scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture:${BUILD_ID} .' 
-                sh 'docker login -u gitlab-ci-token -p ${GITLAB_PASS} scm.dimensiondata.com:5050' 
-                sh 'docker push scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture' 
-
+                // sh 'docker build -t scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture:${BUILD_ID} .'
+                // sh 'docker login -u gitlab-ci-token -p ${GITLAB_PASS} scm.dimensiondata.com:5050'
+                // sh 'docker push scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture'
+                withDockerRegistry(credentialsId: '77ae6c02-d40b-4bae-82bf-ade4eeff03e3', url: 'scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture') {
+                    def newApp = docker.build "scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture:${BUILD_ID}"
+                    newApp.push()
+                }
             }
         }
     }
