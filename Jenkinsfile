@@ -20,9 +20,11 @@ pipeline {
                 // sh 'docker build -t scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture:${BUILD_ID} .'
                 // sh 'docker login -u gitlab-ci-token -p ${GITLAB_PASS} scm.dimensiondata.com:5050'
                 // sh 'docker push scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture'
-                withDockerRegistry(credentialsId: '77ae6c02-d40b-4bae-82bf-ade4eeff03e3', url: 'scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture') {
-                    def newApp = docker.build "scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture:${BUILD_ID}"
-                    newApp.push()
+                script {
+                    withDockerRegistry(credentialsId: '77ae6c02-d40b-4bae-82bf-ade4eeff03e3', url: 'scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture') {
+                        def newApp = docker.build "scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture:${BUILD_ID}"
+                        newApp.push()
+                    }
                 }
             }
         }
