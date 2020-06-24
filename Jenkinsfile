@@ -23,7 +23,7 @@ pipeline {
         stage('Build Docker') {
             steps {
                 script {
-                    docker.withRegistry(credentialsId: '77ae6c02-d40b-4bae-82bf-ade4eeff03e3', url: 'https://scm.dimensiondata.com:5050') {
+                    docker.withRegistry('https://scm.dimensiondata.com:5050','77ae6c02-d40b-4bae-82bf-ade4eeff03e3') {
                         def newApp = docker.build "scm.dimensiondata.com:5050/ddth/appteam/devops-is-culture:${BUILD_ID}"
                         newApp.push()
                     }
