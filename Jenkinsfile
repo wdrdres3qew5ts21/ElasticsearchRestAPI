@@ -23,7 +23,7 @@ pipeline {
         stage('Build Docker') {
             steps {
                 script {
-                    docker.withRegistry("${AZ_CONTAINER_REGISTRY_URL}",'77ae6c02-d40b-4bae-82bf-ade4eeff03e3') {
+                    docker.withRegistry("https://${AZ_CONTAINER_REGISTRY_URL}",'77ae6c02-d40b-4bae-82bf-ade4eeff03e3') {
                         def newApp = docker.build "${AZ_CONTAINER_REGISTRY_URL}/dev/elasticsearchapi:${BUILD_ID}"
                         newApp.push()
                     }
