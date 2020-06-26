@@ -15,6 +15,8 @@ pipeline {
                     checkout scm
                     sh 'echo === End Git clone === '
                     sh 'mvn -B -DskipTests clean package'
+                    sh "echo =============== Maven Location ==============="
+                    sh 'echo ${WORKSPACE}'
                     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                     sh 'ls target/'
                 }
@@ -25,6 +27,8 @@ pipeline {
             steps {
                 script {
                     sh 'ls target/'
+                    sh "echo =============== Docker Location ==============="
+                    sh 'echo ${WORKSPACE}'
                     docker.withRegistry("https://${AZ_CONTAINER_REGISTRY_URL}",'77ae6c02-d40b-4bae-82bf-ade4eeff03e3') {
                         def newApp = docker.build "${AZ_CONTAINER_REGISTRY_URL}/dev/elasticsearchapi:${BUILD_ID}"
                         newApp.push()
