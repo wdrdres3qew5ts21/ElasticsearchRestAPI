@@ -14,7 +14,7 @@ pipeline {
                     sh 'echo Test Git Clone !'
                     checkout scm
                     sh 'echo === End Git clone === '
-                    sh 'mvn -B -DskipTests clean package'
+                    // sh 'mvn -B -DskipTests clean package'
                     sh "echo =============== Maven Location ==============="
                     sh 'echo ${WORKSPACE}'
                     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
