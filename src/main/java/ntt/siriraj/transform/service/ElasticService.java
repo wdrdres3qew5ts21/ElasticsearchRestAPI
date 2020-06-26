@@ -98,7 +98,7 @@ public class ElasticService implements ElasticServiceInterface {
         DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest(indexName);
         try {
             AcknowledgedResponse deleteResponse = elasticClient.indices().delete(deleteIndexRequest, RequestOptions.DEFAULT);
-            System.out.println("--- Delete Exisiting Index ---");
+            System.out.println("--- Delete Exisiting Index!!! ---");
             System.out.println(deleteResponse);
         } catch (IOException ex) {
             Logger.getLogger(ElasticService.class.getName()).log(Level.SEVERE, null, ex);
